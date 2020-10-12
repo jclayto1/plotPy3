@@ -1,5 +1,3 @@
-#!/home/josephclayton/anaconda3/bin/python3
-
 """
 General purpose plotting script, designed to give a quick and simple plot for a space delimited file often created MD engines and analysis packages. This script depends upon matplotlib (plot creation) and numpy (file reading, data manipulation). 
 
