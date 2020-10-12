@@ -8,11 +8,11 @@ def _makeHeatParser(argGroups):
 	Takes a list of argument groups (assumed to be [requiredGroup,fileArgsGroup,plotArgsGroup]
 	"""
 	requiredGroup,fileArgsGroup,plotArgsGroup = argGroups
-#	requiredGroup.add_argument('filename',type=str, help='filename of the file to plot')
 	plotArgsGroup.add_argument('--heatmap', type=str, help='heatmap coloring')
 	plotArgsGroup.add_argument('--zmin', type=float, help='minimum z value to be displayed (exclusive)', default=None)
 	plotArgsGroup.add_argument('--zmax', type=float, help='maximum z value to be displayed (inclusive)', default=None)
 	plotArgsGroup.add_argument('-z','--zlabel', type=str, help='colorbar label', default='')
+	return
 
 def _loadMatrix(filename,args):
 	#Load columns from file
@@ -32,7 +32,7 @@ def _loadMatrix(filename,args):
 		for j in range (0,ylength):
 			matrix[j][i] = zvals[j+i*ylength]	#File iterates over y values, then x
 		
-	return np.flipud(matrix), xAxis, yAxis			#Flip needed because [0,0] occurs at (x_min, y_max)
+	return np.flipud(matrix), xAxis, yAxis			#Flip needed because [0,0] occurs at (x[0], y[-1])
 
 def plotHeat(argParse,argGroups):
 	_makeHeatParser(argGroups)
@@ -76,6 +76,7 @@ def plotMatrix(argParse,argGroups):
 	plt.imshow(matrix,origin='lower',aspect='auto',cmap=argv.heatmap,vmin=argv.zmin,vmax=argv.zmax)
 	plt.gca().xaxis.tick_bottom()
 	plt.colorbar().set_label(argv.zlabel)
+	return
 
 def plotHist2d(argParse,argGroups):
 	_makeHeatParser(argGroups)
@@ -85,10 +86,11 @@ def plotHist2d(argParse,argGroups):
 	plotArgs.add_argument('--discardZero', type=bool, help='hides bins with a count of zero', default=False)
 	parser = argparse.ArgumentParser(parents=[argParse],conflict_handler='resolve')
 	argv = parser.parse_args()
-	val1, val2 = np.loadtxt(argv.filename, usecols=(argv.xCol[0],argv.yCol[0]),unpack=True) #xCol/yCol exists as a list?
+	val1, val2 = np.loadtxt(argv.filename, usecols=(argv.xCol,argv.yCol),unpack=True)
 	cMin = 0.0
 	if(argv.discardZero):
 		cMin = 1e-8
 	plt.hist2d(val1,val2,bins=argv.nBins,vmin=argv.zmin,vmax=argv.zmax,cmin=cMin)
 	plt.gca().xaxis.tick_bottom()
 	plt.colorbar().set_label(argv.zlabel)
+	return

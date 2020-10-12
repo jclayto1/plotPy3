@@ -7,12 +7,14 @@ Usage: python plotPy3 [command] [args]
 
 Available commands:
 -------------------
-	help	Print this message
-	plot	Plots one or more columns from a file
-	multi	Plots a column from multiple files
-	heat    Plots a heatmap from three columns in a file
-	matrix	Plots a MxN heatmap from a file with M rows and N columns
-	heat2d  Plots a 2D histogram from two columns in a file
+	help		Print this message
+	plot		Plots one or more columns from a file
+	multi		Plots a column from multiple files
+	hist		Plots a histogram of one or more columns from a file
+	multihist	Plots a histogram of a column from multiple files
+	heat    	Plots a heatmap from three columns in a file
+	matrix		Plots a MxN heatmap from a file with M rows and N columns
+	hist2d  	Plots a 2D histogram from two columns in a file
 To see available arguments, run 'python plotPy3 [command] -h'
 
 Examples:
@@ -33,7 +35,9 @@ from __future__ import print_function
 
 import argparse
 import sys
+import matplotlib.pyplot as plt
 from plotLines import *
+from plotBar import *
 from plotHeat import *
 
 def _printHelp():
@@ -63,8 +67,8 @@ plotArgsGroup    = parentPrs.add_argument_group('plotting arguments')
 
 requiredGroup.add_argument('command', type=str,choices=commands.keys())
 requiredGroup.add_argument('filename',type=str, nargs='?', help='filename of the file to plot')
-fileArgsGroup.add_argument('--xCol', type=int, nargs=1, help='index of the column containing x values (0 based, default=0)', default=[0,])
-fileArgsGroup.add_argument('--yCol', type=int, nargs='+', help='index of the column containing y values (0 based, default=1); can accept multiple values', default=[1,])
+fileArgsGroup.add_argument('--xCol', type=int, nargs=1, help='index of the column containing x values (0 based, default=0)', default=0)
+fileArgsGroup.add_argument('--yCol', type=int, nargs='+', help='index of the column containing y values (0 based, default=1); can accept multiple values', default=1)
 plotArgsGroup.add_argument('--xScale', type=float, help='scaling factor for x values', default=1.0)
 plotArgsGroup.add_argument('--yScale', type=float, help='scaling factor for y values', default=1.0)
 plotArgsGroup.add_argument('-t','--title', type=str, help='title of figure', default='')
@@ -80,21 +84,24 @@ plotArgsGroup.add_argument('--rcstyle',type=str, help='Style to use; see matplot
 argGroups = [requiredGroup,fileArgsGroup,plotArgsGroup]
 argv,unknown=parentPrs.parse_known_args()
 try:
+	#Prepare figure
 	plt.style.use(argv.rcstyle)
 	currFig = plt.figure(figsize=argv.figSize)
-	parser = commands[sys.argv[1]](parentPrs,argGroups)
-	#TO DO: have function prepare a matplotlib figure, then do labeling/showing here
-	#Plt is loaded in the command function
 	plt.title(argv.title)
 	plt.xlabel(argv.xlabel)
 	plt.ylabel(argv.ylabel)
 	if(argv.xLim is not None): plt.xlim(argv.xLim)
 	if(argv.yLim is not None): plt.ylim(argv.yLim)
+	#Plot and show
+	parser = commands[sys.argv[1]](parentPrs,argGroups)
 	plt.show()
 
+#Error: command not implemented
 except KeyError as e:
 	print("Error: command '%s' not implemented."%sys.argv[1])
 	print("Current implemented commands:")
 	[print(key) for key in commands.keys()]
+
+#All other errors (IOException, etc.):
 except:
 	raise
