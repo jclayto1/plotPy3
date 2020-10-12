@@ -1,6 +1,6 @@
 While in graduate school I wrote a series of CLI plotting tools to help quickly visualize columns in various datafiles. As these grew (and as I became more comfortable with python) I refactored the collection of code into a single CLI tool. I started this goal around the python2 end of life announcement, hence I named the tool plotPy3.
 
-#Usage
+# Usage
 `python3 plotPy3.py help`
 
 ```
@@ -33,5 +33,5 @@ Plot a CV from colvars module in NAMD from three separate simulations
 
 ```
 
-#Dependencies
+# Dependencies
 Any recent version of matplotlib and numpy.
