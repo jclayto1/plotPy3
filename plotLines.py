@@ -73,7 +73,7 @@ def plotMultiFile(argParse,argGroups):
 	_makeLineParser(argGroups)
 	requiredGroup,fileArgsGroup,plotArgsGroup = argGroups
 	requiredGroup.add_argument('filenames',type=str,nargs='+',help='additional files to plot')
-	fileArgsGroup.add_argument('--yCol',type=int,nargs=1,help='index of the column containing y values (0 based, default=1)',default=1)
+	fileArgsGroup.add_argument('--yCol',type=int,help='index of the column containing y values (0 based, default=1)',default=1)
 	parser = argparse.ArgumentParser(parents=[argParse],conflict_handler='resolve')
 	argv = parser.parse_args()
 	xCol = argv.xCol

@@ -65,7 +65,7 @@ plotArgsGroup    = parentPrs.add_argument_group('plotting arguments')
 
 requiredGroup.add_argument('command', type=str,choices=commands.keys())
 requiredGroup.add_argument('filename',type=str, nargs='?', help='filename of the file to plot')
-fileArgsGroup.add_argument('--xCol', type=int, nargs=1, help='index of the column containing x values (0 based, default=0)', default=0)
+fileArgsGroup.add_argument('--xCol', type=int, help='index of the column containing x values (0 based, default=0)', default=0)
 fileArgsGroup.add_argument('--yCol', type=int, nargs='+', help='index of the column containing y values (0 based, default=1); can accept multiple values', default=1)
 plotArgsGroup.add_argument('--xScale', type=float, help='scaling factor for x values', default=1.0)
 plotArgsGroup.add_argument('--yScale', type=float, help='scaling factor for y values', default=1.0)

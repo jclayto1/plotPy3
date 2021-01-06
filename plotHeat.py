@@ -37,7 +37,7 @@ def _loadMatrix(filename,args):
 def plotHeat(argParse,argGroups):
 	_makeHeatParser(argGroups)
 	required,fileArgs,plotArgs = argGroups
-	fileArgs.add_argument('--zCol',type=int,nargs=1,help='index of the column containing z values (0 based, default=2)',default=2)
+	fileArgs.add_argument('--zCol',type=int,help='index of the column containing z values (0 based, default=2)',default=2)
 	plotArgs.add_argument('--discardZero', type=bool, help='hides bins with a count of zero', default=False)
 	plotArgs.add_argument('--useRelative', type=bool, help='Sets the minimum value to zero and scales accordingly',default=False)
 	parser = argparse.ArgumentParser(parents=[argParse])
@@ -81,11 +81,12 @@ def plotMatrix(argParse,argGroups):
 def plotHist2d(argParse,argGroups):
 	_makeHeatParser(argGroups)
 	required,fileArgs,plotArgs = argGroups
-	fileArgs.add_argument('--yCol',type=int,nargs=1,help='index of the column containing y values (0 based, default=1)',default=1)
+	fileArgs.add_argument('--yCol',type=int,help='index of the column containing y values (0 based, default=1)',default=1)
 	plotArgs.add_argument('--nBins',type=int,help='Number of bins (applied to both diminsions)',default=25)
 	plotArgs.add_argument('--discardZero', type=bool, help='hides bins with a count of zero', default=False)
 	parser = argparse.ArgumentParser(parents=[argParse],conflict_handler='resolve')
 	argv = parser.parse_args()
+	print((argv.xCol,argv.yCol))
 	val1, val2 = np.loadtxt(argv.filename, usecols=(argv.xCol,argv.yCol),unpack=True)
 	cMin = 0.0
 	if(argv.discardZero):

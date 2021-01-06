@@ -29,7 +29,7 @@ def plotMultiHist(argParse,argGroups):
 	_makeBarParser(argGroups)
 	requiredGroup,fileArgsGroup,plotArgsGroup = argGroups
 	requiredGroup.add_argument('filenames',type=str,nargs='+',help='additional files to plot')
-	fileArgsGroup.add_argument('--yCol',type=int,nargs=1,help='index of the column containing y values (0 based, default=1)',default=1)
+	fileArgsGroup.add_argument('--yCol',type=int,help='index of the column containing y values (0 based, default=1)',default=1)
 	plotArgsGroup.add_argument('--separate', type=bool, help='if true, treats the files as separate data sets',default=False)
 	plotArgsGroup.add_argument('--histtype',type=str,help='style of the histogram (default=bar)',default='bar')
 	parser = argparse.ArgumentParser(parents=[argParse],conflict_handler='resolve')
