@@ -12,16 +12,11 @@ def _makeLineParser(argGroups):
 	plotArgsGroup.add_argument('--style', type=str, help='style of the plotted line; applies to each line drawn', choices=['solid','dashed','dashdot','dotted'],default='solid')
 	return	
 
-def _plot(xVals,yVals,argv,Label=None):
+def _plot(xVals,yVals,argv):
 	"""
-	Helper function for plotting a line with an optional legend
+	Helper function for plotting a line
 	"""
-	if Label is None:
-		plt.plot(xVals*argv.xScale,yVals*argv.yScale,linestyle=argv.style)	
-	else:
-		plt.plot(xVals*argv.xScale,yVals*argv.yScale,label=Label,linestyle=argv.style)
-		plt.legend(loc=argv.legendLoc)
-	return
+	plt.plot(xVals*argv.xScale,yVals*argv.yScale,linestyle=argv.style)
 
 def plotFile(argParse,argGroups):
 	"""
@@ -44,18 +39,12 @@ def plotFile(argParse,argGroups):
 	#Plot data
 	#Case: only one column of yvals
 	if(len(yvals.shape)==1):
-		try:
-			_plot(xvals,yvals,argv,argv.labels[0])
-		except:
-			_plot(xvals,yvals,argv)
+		_plot(xvals,yvals,argv)
 
 	#Case: multiple columns of yvals
 	else:
 		for i,yval in enumerate(yvals):	
-			try:
-				_plot(xvals,yval,argv,label[i])
-			except:
-				_plot(xvals,yval,argv)
+			_plot(xvals,yval,argv)
 
 	#Change axis to values
 	if(argv.yLim is not None):
@@ -87,10 +76,7 @@ def plotMultiFile(argParse,argGroups):
 		yvals = np.loadtxt(filename, usecols=(yCol)).transpose()  #This is needed to plot columns separately
 
 		#Plot data
-		if(argv.labels is None):
-			_plot(xvals,yvals,argv)
-		else:
-			_plot(xvals,yvals,argv,Label=argv.labels[fileindex])
+		_plot(xvals,yvals,argv,Label=argv.labels[fileindex])
 	#Show titles 
 	if (argv.xLim is not None): plt.xlim(argv.xLim)
 	if (argv.yLim is not None): plt.ylim(argv.yLim)

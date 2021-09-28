@@ -94,6 +94,7 @@ try:
 	if(argv.yLim is not None): plt.ylim(argv.yLim)
 	#Plot and show
 	parser = commands[sys.argv[1]](parentPrs,argGroups)
+	if(argv.labels is not None): plt.legend(loc=argv.legendLoc,labels=argv.labels)
 	plt.show()
 
 #Error: command not implemented

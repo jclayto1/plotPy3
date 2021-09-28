@@ -42,9 +42,5 @@ def plotMultiHist(argParse,argGroups):
 	else:
 		for filename in argv.filenames:
 			yVals = np.concatenate((yVals,np.loadtxt(filename,usecols=(argv.yCol))))
-	if(argv.labels is None):
-		plt.hist(yVals, bins=argv.numOfBin, density=(argv.norm),histtype=argv.histtype)
-	else:
-		plt.hist(yVals, bins=argv.numOfBin, density=(argv.norm),histtype=argv.histtype,label=argv.labels)
-		plt.legend()
+	plt.hist(yVals, bins=argv.numOfBin, density=(argv.norm),histtype=argv.histtype)
 	return argv
