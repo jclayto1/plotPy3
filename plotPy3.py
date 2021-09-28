@@ -1,3 +1,4 @@
+#!/home/joec/Applications/anaconda3/bin/python3
 """
 General purpose plotting script, designed to give a quick and simple plot for a space delimited file often created MD engines and analysis packages. This script depends upon matplotlib (plot creation) and numpy (file reading, data manipulation). 
 
@@ -78,13 +79,14 @@ plotArgsGroup.add_argument('--yLim',type=float, nargs=2, help='y-axis limits. Gi
 plotArgsGroup.add_argument('--xLim',type=float, nargs=2, help='x-axis limits. Given as min max',default=None)
 plotArgsGroup.add_argument('--figSize',type=float, nargs=2, help='size of figure in inches. Given as width height', default=(6.4,4.8))
 plotArgsGroup.add_argument('--rcstyle',type=str, help='Style to use; see matplotlib.pyplot.style.use for more information',default='default')
+plotArgsGroup.add_argument('--tightLayout',type=bool,help='Enable matplotlib tight_layout, which ensures space for labels and titles',default=False)
 #Pass argparser and argument groups to desired function
 argGroups = [requiredGroup,fileArgsGroup,plotArgsGroup]
 argv,unknown=parentPrs.parse_known_args()
 try:
 	#Prepare figure
 	plt.style.use(argv.rcstyle)
-	currFig = plt.figure(figsize=argv.figSize)
+	currFig = plt.figure(figsize=argv.figSize,tight_layout=argv.tightLayout)
 	plt.title(argv.title)
 	plt.xlabel(argv.xlabel)
 	plt.ylabel(argv.ylabel)
