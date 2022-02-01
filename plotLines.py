@@ -16,7 +16,7 @@ def _plot(xVals,yVals,argv):
 	"""
 	Helper function for plotting a line
 	"""
-	plt.plot(xVals*argv.xScale,yVals*argv.yScale,linestyle=argv.style)
+	plt.plot(xVals[::argv.stride]*argv.xScale,yVals[::argv.stride]*argv.yScale,linestyle=argv.style)
 
 def plotFile(argParse,argGroups):
 	"""
@@ -76,7 +76,7 @@ def plotMultiFile(argParse,argGroups):
 		yvals = np.loadtxt(filename, usecols=(yCol)).transpose()  #This is needed to plot columns separately
 
 		#Plot data
-		_plot(xvals,yvals,argv,Label=argv.labels[fileindex])
+		_plot(xvals,yvals,argv)
 	#Show titles 
 	if (argv.xLim is not None): plt.xlim(argv.xLim)
 	if (argv.yLim is not None): plt.ylim(argv.yLim)
